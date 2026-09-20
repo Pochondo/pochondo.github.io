@@ -13,9 +13,9 @@
 -->
 
 <!-- These three lines are what WhatsApp, Facebook and Google show when someone shares or finds your site. Put your studio name in them. -->
-<title>Handmade pottery</title>
+<title>পছন্দ — Handmade pottery</title>
 <meta name="description" content="Mugs, bowls and vases, shaped and glazed by hand in small batches.">
-<meta property="og:title" content="Handmade pottery">
+<meta property="og:title" content="পছন্দ — Handmade pottery">
 
 <meta property="og:description" content="Mugs, bowls and vases, shaped and glazed by hand in small batches.">
 <meta property="og:type" content="website">
@@ -33,7 +33,7 @@
    studio name is filled in, so you can fill things in bit by bit.
    ===================================================================== */
 window.STUDIO = {
-  name:        "[Studio Name]",
+  name:        "পছন্দ",
   tagline:     "Handmade pottery from [your city].",
   potter:      "[Your name], potter",
   about:       "[Add two or three sentences about you and your studio: who makes the pottery, where you work, and what makes your pieces yours.]",
@@ -148,7 +148,7 @@ window.PIECES = [
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Young+Serif&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Young+Serif&family=Noto+Serif+Bengali:wght@400;500&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 /* ---------- Tokens ---------- */
@@ -163,8 +163,8 @@ window.PIECES = [
   --on-ink-hair:#5A6E94;
   --gutter:clamp(20px, calc(9.524vw - 17.14px), 120px);
   --section:clamp(72px, calc(5.333vw + 51.2px), 128px);
-  --display:'Young Serif', Georgia, 'Times New Roman', serif;
-  --body:'Figtree', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+  --display:'Young Serif', 'Noto Serif Bengali', Georgia, 'Times New Roman', serif;
+  --body:'Figtree', 'Noto Sans Bengali', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
 }
 
 /* ---------- Base ---------- */
@@ -189,7 +189,7 @@ button{font:inherit;color:inherit}
 
 /* ---------- Header ---------- */
 .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:clamp(64px, calc(3.048vw + 52.1px), 96px)}
-.brand{font-family:var(--display);font-size:clamp(20px, calc(.381vw + 18.5px), 24px);line-height:44px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brand{font-family:var(--display);font-size:clamp(23px, calc(.438vw + 21.3px), 28px);line-height:44px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .nav{display:flex;align-items:center;gap:28px}
 .nav-links{display:flex;align-items:center;gap:4px}
 .nav-links a{padding:10px 16px;font-size:16px;line-height:24px;font-weight:500}
@@ -347,7 +347,7 @@ button{font:inherit;color:inherit}
 .site-footer :focus-visible{outline-color:var(--ground)}
 .footer-top{display:flex;justify-content:space-between;gap:64px;padding-top:88px}
 .footer-brand{display:flex;flex-direction:column;gap:12px;max-width:360px}
-.footer-name{font-family:var(--display);font-size:30px;line-height:38px}
+.footer-name{font-family:var(--display);font-size:34px;line-height:44px}
 .footer-brand p{color:var(--on-ink-muted);font-size:17px;line-height:28px}
 .footer-cols{display:flex;gap:72px}
 .footer-col{display:flex;flex-direction:column;gap:12px;min-width:180px}
