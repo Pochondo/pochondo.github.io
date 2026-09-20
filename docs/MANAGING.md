@@ -1,7 +1,13 @@
 # Running the shop
 
-Everything here is done in the Supabase dashboard. None of it needs code,
-and none of it needs a git push — the live site picks up changes on reload.
+**Day to day, use the admin page: https://pochondo.github.io/admin/**
+
+Sign in with your email and password. It covers adding and editing pieces,
+uploading photos, stock, and reading orders — on a phone as well as a
+laptop. Nothing here needs code or a git push.
+
+The Supabase dashboard below is the fallback for anything the admin page
+does not cover, and for looking at the raw tables.
 
 Dashboard: https://supabase.com/dashboard/project/slnmhiiwuudqqxnkqusk
 

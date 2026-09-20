@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>পছন্দ — shop admin</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<header class="bar">
+  <span class="brand">পছন্দ</span>
+  <span class="bar-right">
+    <span id="who" class="who"></span>
+    <button id="sign-out" class="ghost" hidden>Sign out</button>
+  </span>
+</header>
+
+<!-- ---------------------------------------------------------- sign in -->
+<main id="screen-login" class="wrap" hidden>
+  <h1>Shop admin</h1>
+  <form id="login-form" class="card" autocomplete="on">
+    <label for="email">Email</label>
+    <input id="email" type="email" name="email" autocomplete="username" required>
+
+    <label for="password">Password</label>
+    <input id="password" type="password" name="password" autocomplete="current-password" required>
+
+    <button class="solid" type="submit">Sign in</button>
+    <p id="login-error" class="error" role="alert" hidden></p>
+  </form>
+</main>
+
+<!-- ------------------------------------------------------------- shop -->
+<main id="screen-shop" class="wrap" hidden>
+  <nav class="tabs" role="tablist">
+    <button class="tab is-on" data-tab="pieces" role="tab">Pieces</button>
+    <button class="tab" data-tab="orders" role="tab">Orders</button>
+  </nav>
+
+  <section id="tab-pieces" class="tab-panel">
+    <div class="row-between">
+      <h2>Pieces</h2>
+      <button id="add-piece" class="solid small">Add piece</button>
+    </div>
+    <p id="pieces-status" class="status">Loading…</p>
+    <ul id="piece-list" class="list"></ul>
+  </section>
+
+  <section id="tab-orders" class="tab-panel" hidden>
+    <h2>Orders</h2>
+    <p id="orders-status" class="status">Loading…</p>
+    <ul id="order-list" class="list"></ul>
+  </section>
+</main>
+
+<!-- ------------------------------------------------------ piece editor -->
+<dialog id="piece-dialog">
+  <form id="piece-form" method="dialog">
+    <h2 id="piece-dialog-title">Edit piece</h2>
+
+    <label for="f-name">Name</label>
+    <input id="f-name" required maxlength="120">
+
+    <label for="f-slug">Short id <span class="hint">lowercase, hyphens — cannot change later</span></label>
+    <input id="f-slug" required pattern="[a-z0-9\-]+" maxlength="80">
+
+    <div class="pair">
+      <span>
+        <label for="f-price">Price (৳)</label>
+        <input id="f-price" type="number" min="0" step="1" required inputmode="numeric">
+      </span>
+      <span>
+        <label for="f-stock">Stock</label>
+        <input id="f-stock" type="number" min="0" step="1" required inputmode="numeric">
+      </span>
+    </div>
+
+    <label for="f-shape">Shape <span class="hint">drawing shown before photos</span></label>
+    <select id="f-shape">
+      <option value="mug">mug</option>
+      <option value="bowl">bowl</option>
+      <option value="vase">vase</option>
+      <option value="plates">plates</option>
+      <option value="jug">jug</option>
+      <option value="tumbler">tumbler</option>
+    </select>
+
+    <label for="f-description">Description</label>
+    <textarea id="f-description" rows="3" maxlength="600"></textarea>
+
+    <div class="pair">
+      <span><label for="f-size">Size</label><input id="f-size" maxlength="80"></span>
+      <span><label for="f-holds">Holds</label><input id="f-holds" maxlength="80"></span>
+    </div>
+    <div class="pair">
+      <span><label for="f-glaze">Glaze</label><input id="f-glaze" maxlength="80"></span>
+      <span><label for="f-care">Care</label><input id="f-care" maxlength="80"></span>
+    </div>
+
+    <label>Photos</label>
+    <ul id="photo-list" class="photos"></ul>
+    <label for="f-photo" class="upload">Add photo
+      <input id="f-photo" type="file" accept="image/*" hidden>
+    </label>
+    <p id="upload-status" class="status" hidden></p>
+
+    <div class="pair">
+      <span>
+        <label for="f-sort">Order on page</label>
+        <input id="f-sort" type="number" step="1" inputmode="numeric" value="0">
+      </span>
+      <span class="check">
+        <label for="f-listed">
+          <input id="f-listed" type="checkbox"> Show on the shop
+        </label>
+      </span>
+    </div>
+
+    <p id="piece-error" class="error" role="alert" hidden></p>
+
+    <div class="actions">
+      <button type="button" id="piece-cancel" class="ghost">Cancel</button>
+      <button type="button" id="piece-save" class="solid">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="../js/config.js"></script>
+<script src="js/client.js"></script>
+<script src="js/pieces.js"></script>
+<script src="js/orders.js"></script>
+</body>
+</html>
