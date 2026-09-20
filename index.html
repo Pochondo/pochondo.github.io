@@ -239,6 +239,16 @@ button{font:inherit;color:inherit}
 .section h2,.about h2{font-size:clamp(32px, calc(1.143vw + 27.5px), 44px);line-height:1.18;letter-spacing:-.005em}
 .section-head{margin-bottom:clamp(28px, calc(1.905vw + 20.6px), 48px)}
 
+/* ---------- Category chips ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(24px, 3vw, 40px)}
+.chip{
+  font:inherit;font-size:15px;line-height:20px;cursor:pointer;
+  padding:8px 16px;border-radius:999px;background:transparent;
+  border:1px solid var(--hair);color:var(--muted);
+}
+.chip:hover{border-color:var(--ink);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--slip)}
+
 /* ---------- Pieces grid ---------- */
 .grid{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:64px 40px}
 .card{display:flex;flex-direction:column;gap:20px}
@@ -470,6 +480,7 @@ button{font:inherit;color:inherit}
 
 <section class="wrap section section-first" id="shop">
 <div class="section-head"><h2>New arrivals</h2></div>
+<div class="chips" id="chips" role="group" aria-label="Filter by category" hidden></div>
 <div class="grid" id="grid"></div>
 </section>
 
@@ -783,12 +794,58 @@ window.__startShop = function () {
   }
 
   /* ---------- home: the grid ---------- */
-  function renderGrid() {
-    if (!PIECES.length) {
-      $('#grid').outerHTML = '<p class="note" id="grid">New pieces are on their way. Message us to ask what is in the studio right now.</p>';
+  let activeCategory = '';        // '' shows everything
+
+  function categoryNames() {
+    const names = [];
+    PIECES.forEach((p) => {
+      const c = (p.category || '').trim();
+      if (c && names.indexOf(c) === -1) names.push(c);
+    });
+    return names.sort((a, b) => a.localeCompare(b));
+  }
+
+  /* One chip per category, plus All. Hidden entirely when nothing is
+     categorised, so a small shop is not cluttered by a pointless filter. */
+  function renderChips() {
+    const box = $('#chips');
+    if (!box) return;
+    const names = categoryNames();
+
+    if (!names.length) {
+      box.hidden = true;
+      box.innerHTML = '';
       return;
     }
-    $('#grid').innerHTML = PIECES.map((p) => {
+
+    box.hidden = false;
+    box.innerHTML = [''].concat(names).map((name) => {
+      const on = name === activeCategory;
+      return '<button type="button" class="chip" data-category="' + esc(name) + '"' +
+             ' aria-pressed="' + (on ? 'true' : 'false') + '">' +
+             esc(name || 'All') + '</button>';
+    }).join('');
+
+    box.querySelectorAll('.chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        activeCategory = chip.dataset.category || '';
+        renderChips();
+        renderGrid();
+      });
+    });
+  }
+
+  function visiblePieces() {
+    if (!activeCategory) return PIECES;
+    return PIECES.filter((p) => (p.category || '').trim() === activeCategory);
+  }
+
+  function renderGrid() {
+    if (!PIECES.length) {
+      $('#grid').outerHTML = '<p class="note" id="grid">New pieces are on their way. Message us to ask what we can bring in for you.</p>';
+      return;
+    }
+    $('#grid').innerHTML = visiblePieces().map((p) => {
       const photo = p.photos[0];
       const media = photo
         ? '<img src="' + esc(photo) + '" alt="" loading="lazy" decoding="async" data-shape="' + esc(p.shape || '') + '" data-sw="3">'
@@ -1013,6 +1070,7 @@ window.__startShop = function () {
   if (studioName && /^Handmade pottery$/i.test(document.title)) document.title = studioName + ' | Handmade pottery';
   homeTitle = document.title;
   fillStatic();
+  renderChips();
   renderGrid();
   const start = parse(location.hash);
   if (start.view === 'piece' || start.anchor) render(start, false);

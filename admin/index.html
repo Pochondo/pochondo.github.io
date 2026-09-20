@@ -50,6 +50,7 @@
       <button id="add-piece" class="solid small">Add piece</button>
     </div>
     <p id="pieces-status" class="status">Loading…</p>
+    <div id="admin-chips" class="chips" role="group" aria-label="Filter by category" hidden></div>
     <ul id="piece-list" class="list"></ul>
   </section>
 
@@ -83,6 +84,10 @@
         <input id="f-stock" type="number" min="0" step="1" required inputmode="numeric">
       </span>
     </div>
+
+    <label for="f-category">Category <span class="hint">e.g. Dinnerware, Vases, Planters</span></label>
+    <input id="f-category" list="category-options" maxlength="60" autocomplete="off">
+    <datalist id="category-options"></datalist>
 
     <label for="f-shape">Shape <span class="hint">drawing shown before photos</span></label>
     <select id="f-shape">

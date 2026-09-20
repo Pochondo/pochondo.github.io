@@ -3,9 +3,10 @@ window.Pieces = (function () {
   'use strict';
 
   const A = window.Admin;
-  const FIELDS = 'id,slug,name,price,shape,description,size,holds,glaze,care,photos,stock,is_listed,sort_order,is_preorder';
+  const FIELDS = 'id,slug,name,price,shape,description,size,holds,glaze,care,photos,stock,is_listed,sort_order,is_preorder,category';
 
   let rows = [];
+  let activeCategory = '';   // '' shows everything
   let editing = null;       // the row being edited, or null when creating
   let photos = [];          // working copy, committed on save
 
@@ -37,19 +38,84 @@ window.Pieces = (function () {
     return '<span class="pill on">' + row.stock + ' in stock</span>';
   }
 
+  function categoryNames() {
+    const names = [];
+    rows.forEach((row) => {
+      const c = (row.category || '').trim();
+      if (c && names.indexOf(c) === -1) names.push(c);
+    });
+    return names.sort((a, b) => a.localeCompare(b));
+  }
+
+  /* Offer the categories already in use, so spelling stays consistent
+     without locking the list down. */
+  function refreshSuggestions() {
+    A.$('#category-options').innerHTML = categoryNames()
+      .map((name) => '<option value="' + A.escapeHtml(name) + '">').join('');
+  }
+
+  function renderChips() {
+    const box = A.$('#admin-chips');
+    const names = categoryNames();
+
+    if (!names.length) {
+      box.hidden = true;
+      box.innerHTML = '';
+      return;
+    }
+
+    box.hidden = false;
+    box.innerHTML = [''].concat(names).map((name) => {
+      const on = name === activeCategory;
+      return '<button type="button" class="chip" data-category="' + A.escapeHtml(name) + '"' +
+             ' aria-pressed="' + (on ? 'true' : 'false') + '">' +
+             A.escapeHtml(name || 'All') + '</button>';
+    }).join('');
+
+    box.querySelectorAll('.chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        activeCategory = chip.dataset.category || '';
+        render();
+      });
+    });
+  }
+
+  function itemHtml(row) {
+    const i = rows.indexOf(row);
+    const photo = Array.isArray(row.photos) && row.photos[0];
+    return '<li><button class="item" data-i="' + i + '">' +
+      (photo ? '<img class="thumb" src="' + A.escapeHtml(photo) + '" alt="" loading="lazy">'
+             : '<span class="thumb"></span>') +
+      '<span class="item-main">' +
+        '<span class="item-name">' + A.escapeHtml(row.name) + '</span>' +
+        '<span class="item-sub">' + A.taka(row.price) + '</span>' +
+      '</span>' + stockPill(row) +
+    '</button></li>';
+  }
+
   function render() {
     const list = A.$('#piece-list');
-    list.innerHTML = rows.map((row, i) => {
-      const photo = Array.isArray(row.photos) && row.photos[0];
-      return '<li><button class="item" data-i="' + i + '">' +
-        (photo ? '<img class="thumb" src="' + A.escapeHtml(photo) + '" alt="" loading="lazy">'
-               : '<span class="thumb"></span>') +
-        '<span class="item-main">' +
-          '<span class="item-name">' + A.escapeHtml(row.name) + '</span>' +
-          '<span class="item-sub">' + A.taka(row.price) + '</span>' +
-        '</span>' + stockPill(row) +
-      '</button></li>';
-    }).join('');
+    renderChips();
+    refreshSuggestions();
+
+    const shown = activeCategory
+      ? rows.filter((row) => (row.category || '').trim() === activeCategory)
+      : rows;
+
+    /* Ungrouped while a single category is selected; grouped under headings
+       when showing everything, so the whole catalogue stays readable. */
+    if (activeCategory) {
+      list.innerHTML = shown.map(itemHtml).join('');
+    } else {
+      const groups = [];
+      categoryNames().concat(['']).forEach((name) => {
+        const members = rows.filter((row) => (row.category || '').trim() === name);
+        if (!members.length) return;
+        groups.push('<li class="group-head">' + A.escapeHtml(name || 'Uncategorised') + '</li>');
+        groups.push(members.map(itemHtml).join(''));
+      });
+      list.innerHTML = groups.join('');
+    }
 
     list.querySelectorAll('.item').forEach((button) => {
       button.addEventListener('click', () => open(rows[Number(button.dataset.i)]));
@@ -95,6 +161,7 @@ window.Pieces = (function () {
     A.$('#f-price').value       = row ? row.price : 0;
     A.$('#f-stock').value       = row ? row.stock : 0;
     A.$('#f-shape').value       = row ? row.shape : 'mug';
+    A.$('#f-category').value    = row ? (row.category || '') : activeCategory;
     A.$('#f-description').value = row ? row.description : '';
     A.$('#f-size').value        = row ? row.size : '';
     A.$('#f-holds').value       = row ? row.holds : '';
@@ -138,6 +205,7 @@ window.Pieces = (function () {
       price:       Math.max(0, parseInt(A.$('#f-price').value, 10) || 0),
       stock:       Math.max(0, parseInt(A.$('#f-stock').value, 10) || 0),
       shape:       A.$('#f-shape').value,
+      category:    A.$('#f-category').value.trim(),
       description: A.$('#f-description').value.trim(),
       size:        A.$('#f-size').value.trim(),
       holds:       A.$('#f-holds').value.trim(),

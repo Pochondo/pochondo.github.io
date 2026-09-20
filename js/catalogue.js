@@ -8,7 +8,7 @@
   'use strict';
 
   const CURRENCY = '৳';           // ৳
-  const FIELDS = 'slug,name,price,shape,description,size,holds,glaze,care,photos,stock,sort_order,is_preorder';
+  const FIELDS = 'slug,name,price,shape,description,size,holds,glaze,care,photos,stock,sort_order,is_preorder,category';
 
   function formatPrice(taka) {
     const n = Number(taka);
@@ -20,6 +20,7 @@
   function toPiece(row) {
     return {
       slug:        String(row.slug || ''),
+      category:    String(row.category || '').trim(),
       name:        String(row.name || ''),
       price:       formatPrice(row.price),
       shape:       String(row.shape || 'mug'),

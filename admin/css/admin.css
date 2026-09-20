@@ -116,3 +116,16 @@ dialog form{padding:var(--pad);display:grid;gap:4px;overflow-y:auto;max-height:8
 .checks .check{align-items:flex-start;padding:0}
 .checks .check label{align-items:flex-start;flex-wrap:wrap}
 .checks .hint{flex-basis:100%;margin-left:26px}
+
+/* Category filter chips, matching the shop's. */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.chip{
+  font:inherit;font-size:14px;padding:7px 14px;border-radius:999px;
+  background:transparent;border:1px solid var(--hair);color:var(--muted);cursor:pointer;
+}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--slip)}
+.group-head{
+  font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.04em;margin:18px 0 2px;
+}
+.group-head:first-child{margin-top:0}
