@@ -4,12 +4,17 @@ A single-file static website for a handmade pottery studio, published with GitHu
 
 ## Editing
 
-All content lives in the `SETTINGS` block near the top of `index.html`:
+**Day to day, see [docs/MANAGING.md](docs/MANAGING.md)** — prices, stock,
+photos and new pieces are all edited in the Supabase dashboard and need no
+push.
+
+In the code, `index.html` holds:
 
 - `window.STUDIO` — studio name, tagline, contact details, colour
-- `window.PIECES` — the catalogue; copy a block to add a piece
+- `window.PIECES` — the fallback catalogue, shown only when the database
+  is unreachable, asleep or empty
 
-Photos go in `images/`. Upright shots (4:5, ~1200px wide) fit best.
+Database setup lives in `supabase/`, run in order 01 → 05.
 
 ## Publishing
 
