@@ -40,9 +40,9 @@ window.STUDIO = {
   aboutPhoto:  "",                      // a photo of you at work, e.g. "images/at-the-wheel.jpg"
 
   /* Where customers message you to order. */
-  whatsapp:    "",                      // full number with country code, digits only (no +, no spaces, no leading 0)
+  whatsapp:    "8801410624425",         // full number with country code, digits only (no +, no spaces, no leading 0)
   instagram:   "",                      // your handle, without the @
-  facebook:    "",                      // your page username (the part after facebook.com/)
+  facebook:    "61594778993095",        // numeric page id, from facebook.com/profile.php?id=...
   leadChannel: "whatsapp",              // which one gets the big button: "whatsapp", "instagram" or "facebook"
 
   email:       "[your@email.com]",
@@ -615,7 +615,9 @@ button{font:inherit;color:inherit}
       url: () => (demo ? 'https://www.instagram.com/direct/inbox/' : 'https://ig.me/m/' + encodeURIComponent(handle))
     },
     facebook: {
-      label: 'Facebook', app: 'Messenger', prefill: true, on: isSet(S.facebook) && page !== '', display: page,
+      label: 'Facebook', app: 'Messenger', prefill: true, on: isSet(S.facebook) && page !== '',
+      /* a numeric profile id is not worth showing a customer */
+      display: /^\d+$/.test(page) ? 'Messenger' : page,
       url: (m) => (demo ? 'https://www.messenger.com/' : 'https://m.me/' + encodeURIComponent(page) + (m ? '?text=' + encodeURIComponent(m) : ''))
     }
   };
