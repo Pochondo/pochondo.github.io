@@ -239,6 +239,39 @@ button{font:inherit;color:inherit}
 .section h2,.about h2{font-size:clamp(32px, calc(1.143vw + 27.5px), 44px);line-height:1.18;letter-spacing:-.005em}
 .section-head{margin-bottom:clamp(28px, calc(1.905vw + 20.6px), 48px)}
 
+/* ---------- Photo viewer ---------- */
+.lightbox{
+  position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;
+  background:rgba(12,18,32,.94);
+  padding:calc(env(safe-area-inset-top,0px) + 16px) 16px calc(env(safe-area-inset-bottom,0px) + 16px);
+}
+.lb-stage{margin:0;max-width:100%;max-height:100%;display:flex;align-items:center;justify-content:center}
+.lb-stage img{max-width:100%;max-height:86vh;object-fit:contain;border-radius:6px}
+.lb-btn{
+  position:absolute;border:none;background:rgba(255,255,255,.12);color:#fff;
+  width:46px;height:46px;border-radius:50%;font-size:26px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.lb-btn:hover{background:rgba(255,255,255,.24)}
+.lb-close{top:calc(env(safe-area-inset-top,0px) + 14px);right:14px;font-size:30px}
+.lb-prev{left:14px}
+.lb-next{right:14px}
+.lb-count{
+  position:absolute;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);
+  left:0;right:0;text-align:center;color:rgba(255,255,255,.7);font-size:14px;
+}
+.panel-large.zoomable{cursor:zoom-in}
+@media (max-width: 560px){
+  .lb-btn{width:40px;height:40px;font-size:22px}
+  .lb-prev{left:8px}
+  .lb-next{right:8px}
+}
+
+/* ---------- Suggestions under a piece ---------- */
+.suggestions{padding-top:0}
+.grid-suggest{grid-template-columns:repeat(4, minmax(0, 1fr));gap:32px 24px}
+@media (max-width: 900px){ .grid-suggest{grid-template-columns:repeat(2, minmax(0, 1fr));gap:28px 16px} }
+
 /* ---------- Category chips ---------- */
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(24px, 3vw, 40px)}
 .chip{
@@ -550,6 +583,15 @@ button{font:inherit;color:inherit}
 
 <main id="piece" hidden></main>
 
+<!-- Full-screen photo viewer, shared by every piece page. -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo" hidden>
+  <button class="lb-btn lb-close" type="button" aria-label="Close photo">&times;</button>
+  <button class="lb-btn lb-prev" type="button" aria-label="Previous photo">&lsaquo;</button>
+  <figure class="lb-stage"><img id="lb-img" alt=""></figure>
+  <button class="lb-btn lb-next" type="button" aria-label="Next photo">&rsaquo;</button>
+  <div class="lb-count" id="lb-count" aria-live="polite"></div>
+</div>
+
 </div>
 
 <footer class="site-footer" id="contact">
@@ -794,6 +836,18 @@ window.__startShop = function () {
   }
 
   /* ---------- home: the grid ---------- */
+  function cardHtml(p) {
+    const photo = p.photos[0];
+    const media = photo
+      ? '<img src="' + esc(photo) + '" alt="" loading="lazy" decoding="async" data-shape="' + esc(p.shape || '') + '" data-sw="3">'
+      : drawing(p.shape, 0, 3, '');
+    const price = !p.available ? 'Sold out' : (shown(p.price) ? p.price.trim() : '');
+    return '<a class="card" href="#/piece/' + encodeURIComponent(p.id) + '">' +
+      '<div class="panel">' + media + '</div>' +
+      '<div><div class="card-name">' + esc(p.name) + '</div>' +
+      (price ? '<div class="card-price">' + esc(price) + '</div>' : '') + '</div></a>';
+  }
+
   let activeCategory = '';        // '' shows everything
 
   function categoryNames() {
@@ -845,20 +899,84 @@ window.__startShop = function () {
       $('#grid').outerHTML = '<p class="note" id="grid">New pieces are on their way. Message us to ask what we can bring in for you.</p>';
       return;
     }
-    $('#grid').innerHTML = visiblePieces().map((p) => {
-      const photo = p.photos[0];
-      const media = photo
-        ? '<img src="' + esc(photo) + '" alt="" loading="lazy" decoding="async" data-shape="' + esc(p.shape || '') + '" data-sw="3">'
-        : drawing(p.shape, 0, 3, '');
-      const price = !p.available ? 'Sold out' : (shown(p.price) ? p.price.trim() : '');
-      return '<a class="card" href="#/piece/' + encodeURIComponent(p.id) + '">' +
-        '<div class="panel">' + media + '</div>' +
-        '<div><div class="card-name">' + esc(p.name) + '</div>' + (price ? '<div class="card-price">' + esc(price) + '</div>' : '') + '</div></a>';
-    }).join('');
+    $('#grid').innerHTML = visiblePieces().map(cardHtml).join('');
     guardImages($('#grid'));
   }
 
   /* ---------- piece page ---------- */
+  /* Pieces from the same category first, then anything else, so a visitor
+     always has somewhere to go next even in a small or uncategorised shop. */
+  const SUGGESTION_COUNT = 4;
+
+  /* ---------- full-screen photo viewer ---------- */
+  const lightbox = {
+    photos: [],
+    index: 0,
+
+    open(photos, index, label) {
+      if (!photos.length) return;
+      this.photos = photos;
+      this.label = label || '';
+      this.show(index);
+      $('#lightbox').hidden = false;
+      document.body.style.overflow = 'hidden';
+      $('.lb-close').focus();
+    },
+
+    show(index) {
+      const total = this.photos.length;
+      this.index = (index + total) % total;      // wraps both ways
+      const img = $('#lb-img');
+      img.src = this.photos[this.index];
+      img.alt = this.label + (total > 1 ? ', photo ' + (this.index + 1) : '');
+      $('#lb-count').textContent = total > 1 ? (this.index + 1) + ' of ' + total : '';
+      const single = total < 2;
+      $('.lb-prev').hidden = single;
+      $('.lb-next').hidden = single;
+    },
+
+    close() {
+      $('#lightbox').hidden = true;
+      $('#lb-img').removeAttribute('src');
+      document.body.style.overflow = '';
+    },
+
+    isOpen() { return !$('#lightbox').hidden; }
+  };
+
+  $('.lb-close').addEventListener('click', () => lightbox.close());
+  $('.lb-prev').addEventListener('click', () => lightbox.show(lightbox.index - 1));
+  $('.lb-next').addEventListener('click', () => lightbox.show(lightbox.index + 1));
+
+  /* Tapping the backdrop closes; tapping the photo itself does not. */
+  $('#lightbox').addEventListener('click', (e) => {
+    if (e.target.id === 'lightbox' || e.target.classList.contains('lb-stage')) lightbox.close();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.isOpen()) return;
+    if (e.key === 'Escape') lightbox.close();
+    if (e.key === 'ArrowLeft') lightbox.show(lightbox.index - 1);
+    if (e.key === 'ArrowRight') lightbox.show(lightbox.index + 1);
+  });
+
+  function suggestionsHtml(piece) {
+    const category = (piece.category || '').trim();
+    const others = PIECES.filter((x) => x.id !== piece.id);
+    const sameCategory = category
+      ? others.filter((x) => (x.category || '').trim() === category)
+      : [];
+    const rest = others.filter((x) => sameCategory.indexOf(x) === -1);
+    const picks = sameCategory.concat(rest).slice(0, SUGGESTION_COUNT);
+
+    if (!picks.length) return '';
+
+    return '<section class="wrap section suggestions">' +
+      '<div class="section-head"><h2>You might also like</h2></div>' +
+      '<div class="grid grid-suggest">' + picks.map(cardHtml).join('') + '</div>' +
+    '</section>';
+  }
+
   function renderPiece(id) {
     const el = $('#piece');
     const p = PIECES.find((x) => x.id === id);
@@ -885,9 +1003,9 @@ window.__startShop = function () {
 
     let orderHtml;
     if (!p.available) {
-      const ask = active[0] && !demo ? CHANNELS[active[0]].url(hello + 'will the ' + p.name + ' be back? I would like one from the next batch.') : '#contact';
-      orderHtml = '<div class="order"><p class="soldout">Sold out for now.</p>' +
-        '<a class="btn btn-line" href="' + esc(ask) + '"' + (ask !== '#contact' ? ' target="_blank" rel="noopener"' : '') + '>' + ICON_CHAT + '<span>Ask about the next batch</span></a></div>';
+      const ask = active[0] && !demo ? CHANNELS[active[0]].url(hello + 'can you bring in the ' + p.name + ' for me?') : '#contact';
+      orderHtml = '<div class="order"><p class="soldout">Not available right now.</p>' +
+        '<a class="btn btn-line" href="' + esc(ask) + '"' + (ask !== '#contact' ? ' target="_blank" rel="noopener"' : '') + '>' + ICON_CHAT + '<span>Ask us to bring one in</span></a></div>';
     } else if (active.length) {
       const main = active[0];
       const alts = active.slice(1);
@@ -918,21 +1036,30 @@ window.__startShop = function () {
         '</div>' +
         '<div class="details">' +
           '<div><h1 tabindex="-1">' + esc(p.name) + '</h1>' + (price ? '<div class="price">' + esc(price) + '</div>' : '') + '</div>' +
-          '<p class="desc">' + esc(p.description ? p.description.trim() + ' ' : '') + 'Each one is shaped and glazed by hand, so yours will differ slightly from the ' + (p.photos.length ? 'photo' : 'picture') + '.</p>' +
+          '<p class="desc">' + esc(p.description ? p.description.trim() + ' ' : '') + 'Brought in to order, so small differences from the ' + (p.photos.length ? 'photo' : 'picture') + ' are part of the piece.</p>' +
           (specs.length ? '<dl class="specs">' + specs.map((r) => '<div><dt>' + r[0] + '</dt><dd>' + esc(r[1].trim()) + '</dd></div>').join('') + '</dl>' : '') +
           orderHtml +
         '</div>' +
-      '</div></div>';
+      '</div></div>' + suggestionsHtml(p);
     document.title = p.name + (studioName ? ' | ' + studioName : '');
     guardImages(el);
 
     // gallery
+    let shownView = 0;
     $$('.thumb', el).forEach((b) => b.addEventListener('click', () => {
       const i = Number(b.dataset.view);
+      shownView = i;
       $('#stage', el).innerHTML = views[i].main;
       guardImages($('#stage', el));
       $$('.thumb', el).forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
     }));
+
+    /* Drawings are placeholders, so only real photos are worth enlarging. */
+    if (p.photos.length) {
+      const stage = $('#stage', el);
+      stage.classList.add('zoomable');
+      stage.addEventListener('click', () => lightbox.open(p.photos, shownView, p.name));
+    }
 
     // ordering
     let qty = 1;
