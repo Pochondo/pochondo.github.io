@@ -557,7 +557,7 @@ button{font:inherit;color:inherit}
 <noscript><p style="padding:24px">This site needs JavaScript to show the collection. Please turn it on, or message us directly.</p></noscript>
 
 <script>
-(function () {
+window.__startShop = function () {
   'use strict';
 
   /* ---------- helpers ---------- */
@@ -1016,7 +1016,12 @@ button{font:inherit;color:inherit}
   renderGrid();
   const start = parse(location.hash);
   if (start.view === 'piece' || start.anchor) render(start, false);
-})();
+};
 </script>
+
+<!-- Catalogue comes from Supabase when reachable; the pieces above
+     remain the fallback so the shop is never blank. -->
+<script src="js/config.js"></script>
+<script src="js/catalogue.js"></script>
 </body>
 </html>
