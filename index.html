@@ -977,6 +977,18 @@ button{font:inherit;color:inherit}
   });
   window.addEventListener('popstate', () => render(parse(location.hash), true));
 
+  /* Phone browsers can leave a blank tab stranded when a new tab immediately
+     hands off to an app, so chat deep links open in place on touch devices.
+     Pointer-fine devices (desktop) keep the new tab and the shop behind it. */
+  const CHAT_LINK = /^https:\/\/(wa\.me|m\.me|ig\.me)\//;
+  const keepsNewTab = window.matchMedia('(pointer: fine)').matches;
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest ? e.target.closest('a[target="_blank"]') : null;
+    if (!a || keepsNewTab || !CHAT_LINK.test(a.href)) return;
+    a.target = '_self';
+    a.removeAttribute('rel');
+  }, true);
+
   /* ---------- phone menu ---------- */
   const menuBtn = $('#menu-btn');
   const menu = $('#menu');
