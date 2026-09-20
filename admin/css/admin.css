@@ -111,3 +111,8 @@ dialog form{padding:var(--pad);display:grid;gap:4px;overflow-y:auto;max-height:8
   justify-self:start;
 }
 .linky:hover{color:var(--ink)}
+
+.checks{margin-top:10px}
+.checks .check{align-items:flex-start;padding:0}
+.checks .check label{align-items:flex-start;flex-wrap:wrap}
+.checks .hint{flex-basis:100%;margin-left:26px}

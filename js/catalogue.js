@@ -8,7 +8,7 @@
   'use strict';
 
   const CURRENCY = '৳';           // ৳
-  const FIELDS = 'slug,name,price,shape,description,size,holds,glaze,care,photos,stock,sort_order';
+  const FIELDS = 'slug,name,price,shape,description,size,holds,glaze,care,photos,stock,sort_order,is_preorder';
 
   function formatPrice(taka) {
     const n = Number(taka);
@@ -29,7 +29,8 @@
       holds:       String(row.holds || ''),
       glaze:       String(row.glaze || ''),
       care:        String(row.care || ''),
-      available:   Number(row.stock) > 0
+      /* A preorder is brought in per order, so stock does not gate it. */
+      available:   row.is_preorder === true || Number(row.stock) > 0
     };
   }
 

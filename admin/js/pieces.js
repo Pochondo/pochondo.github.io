@@ -3,7 +3,7 @@ window.Pieces = (function () {
   'use strict';
 
   const A = window.Admin;
-  const FIELDS = 'id,slug,name,price,shape,description,size,holds,glaze,care,photos,stock,is_listed,sort_order';
+  const FIELDS = 'id,slug,name,price,shape,description,size,holds,glaze,care,photos,stock,is_listed,sort_order,is_preorder';
 
   let rows = [];
   let editing = null;       // the row being edited, or null when creating
@@ -20,6 +20,7 @@ window.Pieces = (function () {
 
   function stockPill(row) {
     if (!row.is_listed) return '<span class="pill off">hidden</span>';
+    if (row.is_preorder) return '<span class="pill on">preorder</span>';
     if (Number(row.stock) <= 0) return '<span class="pill zero">sold out</span>';
     return '<span class="pill on">' + row.stock + ' in stock</span>';
   }
@@ -89,6 +90,7 @@ window.Pieces = (function () {
     A.$('#f-care').value        = row ? row.care : '';
     A.$('#f-sort').value        = row ? row.sort_order : rows.length + 1;
     A.$('#f-listed').checked    = row ? row.is_listed : false;
+    A.$('#f-preorder').checked  = row ? row.is_preorder : true;
 
     A.setMessage(A.$('#piece-error'), '', true);
     A.setMessage(A.$('#upload-status'), '');
@@ -131,6 +133,7 @@ window.Pieces = (function () {
       care:        A.$('#f-care').value.trim(),
       sort_order:  parseInt(A.$('#f-sort').value, 10) || 0,
       is_listed:   A.$('#f-listed').checked,
+      is_preorder: A.$('#f-preorder').checked,
       photos:      photos.slice()
     };
   }
