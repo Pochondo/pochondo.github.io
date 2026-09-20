@@ -103,3 +103,11 @@ dialog form{padding:var(--pad);display:grid;gap:4px;overflow-y:auto;max-height:8
   .pill.on{background:#12321F;border-color:#245C39}
   .pill.zero{background:#33191A;border-color:#5E2B29}
 }
+
+/* A button that reads as a link — keeps keyboard and screen-reader semantics. */
+.linky{
+  background:none;border:none;padding:6px 0;margin-top:4px;
+  color:var(--muted);text-decoration:underline;font-size:14px;font-weight:400;
+  justify-self:start;
+}
+.linky:hover{color:var(--ink)}

@@ -69,6 +69,45 @@ window.Admin = (function () {
     window.location.reload();
   }
 
+  /* Supabase mails a one-time link back to reset.html, where the new
+     password is set. The reply is deliberately identical whether or not the
+     address has an account, so this cannot be used to discover who does. */
+  async function sendReset(email) {
+    const redirectTo = new URL('reset.html', window.location.href).href;
+    const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo });
+    if (error) throw error;
+  }
+
+  function bindForgot() {
+    const button = $('#forgot');
+    const note = $('#login-note');
+    const err = $('#login-error');
+
+    button.addEventListener('click', async () => {
+      const email = $('#email').value.trim();
+      setMessage(err, '', true);
+
+      if (!email) {
+        setMessage(err, 'Type your email above first, then tap this.', true);
+        $('#email').focus();
+        return;
+      }
+
+      button.disabled = true;
+      setMessage(note, 'Sending\u2026');
+      try {
+        await sendReset(email);
+        setMessage(note, 'If that address has an account, a reset link is on its way. ' +
+                         'It expires in an hour.');
+      } catch (error) {
+        setMessage(err, explain(error), true);
+        setMessage(note, '');
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+
   /* ------------------------------------------------------------ wiring */
   async function enter(user) {
     $('#who').textContent = user.email || '';
@@ -110,6 +149,7 @@ window.Admin = (function () {
   async function start() {
     bindTabs();
     bindLogin();
+    bindForgot();
     $('#sign-out').addEventListener('click', signOut);
 
     const user = await currentAdmin();

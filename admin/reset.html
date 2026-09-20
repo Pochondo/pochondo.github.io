@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>পছন্দ — new password</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<header class="bar"><span class="brand">পছন্দ</span></header>
+
+<main class="wrap">
+  <h1>Set a new password</h1>
+
+  <form id="reset-form" class="card" hidden autocomplete="on">
+    <label for="pw1">New password <span class="hint">at least 8 characters</span></label>
+    <input id="pw1" type="password" autocomplete="new-password" minlength="8" required>
+
+    <label for="pw2">Type it again</label>
+    <input id="pw2" type="password" autocomplete="new-password" minlength="8" required>
+
+    <button class="solid" type="submit">Save new password</button>
+    <p id="reset-error" class="error" role="alert" hidden></p>
+  </form>
+
+  <p id="reset-status" class="status">Checking your link…</p>
+  <p id="reset-done" hidden><a class="linky" href="./">Back to sign in</a></p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="../js/config.js"></script>
+<script src="js/reset.js"></script>
+</body>
+</html>
