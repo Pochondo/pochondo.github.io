@@ -68,8 +68,10 @@
     <label for="f-name">Name</label>
     <input id="f-name" required maxlength="120">
 
-    <label for="f-slug">Short id <span class="hint">lowercase, hyphens — cannot change later</span></label>
-    <input id="f-slug" required pattern="[a-z0-9\-]+" maxlength="80">
+    <div id="slug-row" hidden>
+      <label for="f-slug">Short id <span class="hint">set automatically, cannot change</span></label>
+      <input id="f-slug" readonly tabindex="-1">
+    </div>
 
     <div class="pair">
       <span>

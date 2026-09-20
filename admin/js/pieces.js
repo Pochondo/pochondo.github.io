@@ -18,6 +18,18 @@ window.Pieces = (function () {
       .slice(0, 80);
   }
 
+  /* The short id is generated, never typed. A Bengali name slugifies to an
+     empty string, so the shape is the fallback before a bare 'piece'. */
+  function uniqueSlug(name, shape) {
+    const base = slugify(name) || slugify(shape) || 'piece';
+    const taken = new Set(rows.map((r) => r.slug));
+    if (!taken.has(base)) return base;
+
+    let n = 2;
+    while (taken.has(base + '-' + n)) n += 1;
+    return base + '-' + n;
+  }
+
   function stockPill(row) {
     if (!row.is_listed) return '<span class="pill off">hidden</span>';
     if (row.is_preorder) return '<span class="pill on">preorder</span>';
@@ -79,7 +91,7 @@ window.Pieces = (function () {
     A.$('#piece-dialog-title').textContent = row ? 'Edit piece' : 'New piece';
     A.$('#f-name').value        = row ? row.name : '';
     A.$('#f-slug').value        = row ? row.slug : '';
-    A.$('#f-slug').readOnly     = Boolean(row);
+    A.$('#slug-row').hidden     = !row;
     A.$('#f-price').value       = row ? row.price : 0;
     A.$('#f-stock').value       = row ? row.stock : 0;
     A.$('#f-shape').value       = row ? row.shape : 'mug';
@@ -121,7 +133,7 @@ window.Pieces = (function () {
 
   function readForm() {
     return {
-      slug:        slugify(A.$('#f-slug').value),
+      slug:        A.$('#f-slug').value || '',   /* filled in by save() when new */
       name:        A.$('#f-name').value.trim(),
       price:       Math.max(0, parseInt(A.$('#f-price').value, 10) || 0),
       stock:       Math.max(0, parseInt(A.$('#f-stock').value, 10) || 0),
@@ -144,7 +156,7 @@ window.Pieces = (function () {
     const piece = readForm();
 
     if (!piece.name) return A.setMessage(err, 'A name is needed.', true);
-    if (!piece.slug) return A.setMessage(err, 'A short id is needed.', true);
+    if (!editing) piece.slug = uniqueSlug(piece.name, piece.shape);
     if (piece.is_listed && piece.price <= 0) {
       return A.setMessage(err, 'Set a price above zero before showing it on the shop.', true);
     }
@@ -171,10 +183,6 @@ window.Pieces = (function () {
   A.$('#add-piece').addEventListener('click', () => open(null));
   A.$('#piece-cancel').addEventListener('click', () => dialog.close());
   A.$('#piece-save').addEventListener('click', save);
-
-  A.$('#f-name').addEventListener('input', (e) => {
-    if (!editing && !A.$('#f-slug').value) A.$('#f-slug').value = slugify(e.target.value);
-  });
 
   A.$('#f-photo').addEventListener('change', (e) => {
     const file = e.target.files && e.target.files[0];
