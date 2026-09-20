@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--
+  HOW TO USE THIS FILE
+  1. Fill in the SETTINGS block a few lines below (studio name, WhatsApp number, your pieces).
+  2. Put your photos in a folder called "images" next to this file.
+  3. Upload this file (keep the name index.html) together with the images folder to any web host for static sites.
+  You can open the file in a browser at any time to see how it looks.
+-->
+
+<!-- These three lines are what WhatsApp, Facebook and Google show when someone shares or finds your site. Put your studio name in them. -->
+<title>Handmade pottery</title>
+<meta name="description" content="Mugs, bowls and vases, shaped and glazed by hand in small batches.">
+<meta property="og:title" content="Handmade pottery">
+
+<meta property="og:description" content="Mugs, bowls and vases, shaped and glazed by hand in small batches.">
+<meta property="og:type" content="website">
+<!-- For a picture in link previews, add your own once the site is online:
+<meta property="og:image" content="https://your-address/images/cover.jpg"> -->
+<meta name="theme-color" content="#F4F6F5">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23F4F6F5'/%3E%3Cpath d='M5 12h22c0 8-4.5 13-11 13S5 20 5 12z' fill='%231F3A6E'/%3E%3C/svg%3E">
+
+<script>
+/* =====================================================================
+   SETTINGS: the only part of this file you need to edit.
+
+   Type your details between the quotes. Anything you leave empty ("")
+   or still in [square brackets] is hidden from visitors once your
+   studio name is filled in, so you can fill things in bit by bit.
+   ===================================================================== */
+window.STUDIO = {
+  name:        "[Studio Name]",
+  tagline:     "Handmade pottery from [your city].",
+  potter:      "[Your name], potter",
+  about:       "[Add two or three sentences about you and your studio: who makes the pottery, where you work, and what makes your pieces yours.]",
+  aboutPhoto:  "",                      // a photo of you at work, e.g. "images/at-the-wheel.jpg"
+
+  /* Where customers message you to order. */
+  whatsapp:    "",                      // full number with country code, digits only (no +, no spaces, no leading 0)
+  instagram:   "",                      // your handle, without the @
+  facebook:    "",                      // your page username (the part after facebook.com/)
+  leadChannel: "whatsapp",              // which one gets the big button: "whatsapp", "instagram" or "facebook"
+
+  email:       "[your@email.com]",
+  phone:       "[Phone]",
+  address:     "[Studio address]",
+  hours:       "[Opening hours]",
+
+  payment:      "[Your payment options]",
+  delivery:     "[Your delivery areas and times]",
+  deliveryNote: "[Delivery time and cost]",
+
+  ink:         "#1F3A6E"                // the one colour used for text, lines, buttons and the footer
+};
+
+/* ---------------------------------------------------------------------
+   YOUR PIECES. Copy a block to add a piece, delete a block to remove one.
+
+   photos     Put image files in a folder called "images" next to this
+              file and list them here, first photo first, for example
+              ["images/mug-1.jpg", "images/mug-2.jpg"].
+              Upright photos (about 4 wide by 5 tall, 1200 pixels wide is plenty) fit best.
+              With no photos, a drawing is shown instead.
+   shape      Which drawing to show until there are photos:
+              "mug", "bowl", "vase", "plates", "jug" or "tumbler".
+   available  Write false to mark a piece as sold out.
+   --------------------------------------------------------------------- */
+window.PIECES = [
+  {
+    name: "Everyday mug",
+    price: "[Price]",
+    shape: "mug",
+    photos: [],
+    description: "A mug with a comfortable handle and a rim that feels good to drink from.",
+    size: "[Height × width]",
+    holds: "[Volume]",
+    glaze: "[Glaze name]",
+    care: "[Dishwasher safe or hand wash]",
+    available: true
+  },
+  {
+    name: "Breakfast bowl",
+    price: "[Price]",
+    shape: "bowl",
+    photos: [],
+    description: "A generous bowl for cereal, soup or noodles, with a foot that keeps it steady.",
+    size: "[Height × width]",
+    holds: "[Volume]",
+    glaze: "[Glaze name]",
+    care: "[Dishwasher safe or hand wash]",
+    available: true
+  },
+  {
+    name: "Round vase",
+    price: "[Price]",
+    shape: "vase",
+    photos: [],
+    description: "A rounded vase with a narrow neck that holds a few stems upright.",
+    size: "[Height × width]",
+    holds: "",
+    glaze: "[Glaze name]",
+    care: "[Dishwasher safe or hand wash]",
+    available: true
+  },
+  {
+    name: "Dinner plates",
+    price: "[Price]",
+    shape: "plates",
+    photos: [],
+    description: "Flat, stackable plates with a gently raised rim.",
+    size: "[Width]",
+    holds: "",
+    glaze: "[Glaze name]",
+    care: "[Dishwasher safe or hand wash]",
+    available: true
+  },
+  {
+    name: "Pouring jug",
+    price: "[Price]",
+    shape: "jug",
+    photos: [],
+    description: "A jug with a clean pouring lip and a handle sized for a full hand.",
+    size: "[Height × width]",
+    holds: "[Volume]",
+    glaze: "[Glaze name]",
+    care: "[Dishwasher safe or hand wash]",
+    available: true
+  },
+  {
+    name: "Tumbler",
+    price: "[Price]",
+    shape: "tumbler",
+    photos: [],
+    description: "A cup without a handle for water, tea or juice, banded with glaze.",
+    size: "[Height × width]",
+    holds: "[Volume]",
+    glaze: "[Glaze name]",
+    care: "[Dishwasher safe or hand wash]",
+    available: true
+  }
+];
+/* ===================== end of settings ===================== */
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Young+Serif&display=swap" rel="stylesheet">
+
+<style>
+/* ---------- Tokens ---------- */
+:root{
+  --ground:#F4F6F5;
+  --slip:#FDFEFE;
+  --ink:#1F3A6E;
+  --tint:#E5E9EC;
+  --hair:#C5CDD7;
+  --muted:#4E638C;
+  --on-ink-muted:#C9D0DA;
+  --on-ink-hair:#5A6E94;
+  --gutter:clamp(20px, calc(9.524vw - 17.14px), 120px);
+  --section:clamp(72px, calc(5.333vw + 51.2px), 128px);
+  --display:'Young Serif', Georgia, 'Times New Roman', serif;
+  --body:'Figtree', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ---------- Base ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:28px;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p,ol,dl,dd{margin:0}
+h1,h2{font-family:var(--display);font-weight:400;text-wrap:balance}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+button{font:inherit;color:inherit}
+[hidden]{display:none !important}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+.wrap{width:100%;max-width:1440px;margin-inline:auto;padding-inline:var(--gutter)}
+.skip{position:absolute;left:12px;top:-64px;z-index:10;padding:10px 16px;border-radius:999px;background:var(--ink);color:var(--ground);font-weight:600}
+.skip:focus{top:12px}
+#content:focus{outline:none}
+
+/* ---------- Setup note (only while the studio name is still a placeholder) ---------- */
+.setup{background:var(--tint);padding:10px var(--gutter);font-size:15px;line-height:22px}
+.setup strong{font-weight:600}
+
+/* ---------- Header ---------- */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:clamp(64px, calc(3.048vw + 52.1px), 96px)}
+.brand{font-family:var(--display);font-size:clamp(20px, calc(.381vw + 18.5px), 24px);line-height:44px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav{display:flex;align-items:center;gap:28px}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{padding:10px 16px;font-size:16px;line-height:24px;font-weight:500}
+.nav-links a:hover,.menu a:hover,.back:hover span,.site-footer a:hover{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1.5px}
+.pill{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px;border:1.5px solid var(--ink);border-radius:999px;font-size:16px;line-height:24px;font-weight:600;white-space:nowrap}
+.pill:hover{background:var(--ink);color:var(--ground)}
+.nav-phone{display:none;align-items:center;margin-right:-10px}
+.icon-btn{width:44px;height:44px;padding:0;border:0;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.menu{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.menu a{display:flex;align-items:center;min-height:56px;padding:0 var(--gutter);font-size:18px;line-height:28px;font-weight:500}
+.menu a + a{border-top:1px solid var(--hair)}
+@media (max-width:719px){
+  .nav{display:none}
+  .nav-phone{display:flex}
+}
+@media (min-width:720px){
+  .menu{display:none !important}
+}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 36px;border:1.5px solid var(--ink);border-radius:999px;font-size:17px;line-height:24px;font-weight:600;text-align:center;cursor:pointer}
+.btn-solid{background:var(--ink);color:var(--ground)}
+.btn-solid:hover{opacity:.86}
+.btn-line{background:transparent;color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--ground)}
+.btn-52{min-height:52px;padding:0 20px;font-size:16px}
+.btn svg{flex-shrink:0}
+
+/* ---------- Hero ---------- */
+.hero{padding-top:clamp(28px, calc(2.667vw + 17.6px), 56px)}
+.hero-copy{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(20px, calc(.762vw + 17px), 28px)}
+.hero h1{max-width:1000px;font-size:clamp(38px, calc(4vw + 22.4px), 80px);line-height:1.12;letter-spacing:-.01em}
+.lede{max-width:560px;color:var(--muted);font-size:clamp(17px, calc(.286vw + 15.9px), 20px);line-height:1.62}
+.shelf{margin-top:clamp(40px, calc(.762vw + 37px), 48px);border-bottom:4px solid var(--ink);overflow:hidden}
+.shelf > svg{width:100%;max-width:1440px;height:auto;margin-inline:auto}
+@media (max-width:999px){
+  .shelf{border-bottom-width:3px}
+  .shelf > svg{width:auto;max-width:none;height:216px;margin:0;position:relative;left:50%;transform:translateX(calc(-50% + 29px))}
+}
+@media (max-width:719px){
+  .hero-copy .btn{align-self:stretch}
+}
+
+/* ---------- Sections ---------- */
+.section{padding-bottom:var(--section)}
+.section-first{padding-top:clamp(72px, calc(3.81vw + 57.1px), 112px)}
+.section h2,.about h2{font-size:clamp(32px, calc(1.143vw + 27.5px), 44px);line-height:1.18;letter-spacing:-.005em}
+.section-head{margin-bottom:clamp(28px, calc(1.905vw + 20.6px), 48px)}
+
+/* ---------- Pieces grid ---------- */
+.grid{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:64px 40px}
+.card{display:flex;flex-direction:column;gap:20px}
+.panel{position:relative;overflow:hidden;background:var(--tint);aspect-ratio:4 / 5}
+.panel > svg,.panel > img{position:absolute;left:0;top:0;width:100%;height:100%}
+.panel > img{object-fit:cover}
+.card-name{font-size:18px;line-height:28px;font-weight:600}
+.card-price{margin-top:4px;color:var(--muted);font-size:16px;line-height:24px}
+.card:hover .card-name{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1.5px}
+@media (max-width:899px){
+  .grid{gap:40px 24px}
+}
+@media (max-width:719px){
+  .grid{grid-template-columns:repeat(2, minmax(0, 1fr));gap:32px 16px}
+  .card{gap:12px}
+  .card-name{font-size:16px;line-height:24px}
+  .card-price{margin-top:2px;font-size:15px;line-height:22px}
+}
+
+/* ---------- About ---------- */
+.about{display:grid;grid-template-columns:minmax(0, 480px) minmax(0, 1fr);gap:clamp(40px, 7vw, 100px);align-items:center}
+.about-text{display:flex;flex-direction:column;gap:24px}
+.about-text p{color:var(--muted);font-size:18px;line-height:30px;max-width:620px}
+.potter{font-size:17px;line-height:28px;font-weight:600}
+.panel-note{position:absolute;left:20px;bottom:8px;font-size:13px;line-height:20px}
+@media (max-width:899px){
+  .about{grid-template-columns:minmax(0, 1fr);gap:32px}
+  .about .panel{aspect-ratio:7 / 8;max-height:560px}
+  .about-text{gap:16px}
+  .about-text p{font-size:17px;line-height:28px}
+  .about br{display:none}
+}
+
+/* ---------- How ordering works ---------- */
+.steps{list-style:none;padding:0;display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:40px;margin-top:clamp(28px, calc(2.667vw + 17.6px), 56px)}
+.step{display:flex;flex-direction:column;gap:12px;padding-top:28px;border-top:1px solid var(--hair)}
+.step-n{font-family:var(--display);font-size:40px;line-height:44px}
+.step h3{font-size:20px;line-height:28px;font-weight:600}
+.step p{color:var(--muted);font-size:17px;line-height:28px}
+.cta-row{display:flex;flex-wrap:wrap;gap:16px;margin-top:clamp(28px, calc(2.667vw + 17.6px), 56px)}
+@media (max-width:1199px){
+  .steps{grid-template-columns:repeat(2, minmax(0, 1fr));gap:32px 40px}
+}
+@media (max-width:639px){
+  .steps{grid-template-columns:minmax(0, 1fr);gap:24px}
+  .step{display:grid;grid-template-columns:36px minmax(0, 1fr);column-gap:12px;row-gap:6px;padding-top:20px}
+  .step-n{grid-row:1 / span 2;font-size:32px;line-height:36px}
+  .step h3{font-size:18px;line-height:26px}
+  .step p{grid-column:2;font-size:16px;line-height:26px}
+  .cta-row{flex-direction:column;gap:12px}
+}
+
+/* ---------- Piece page ---------- */
+.piece{padding-top:16px;padding-bottom:var(--section)}
+.back{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-bottom:20px;font-size:16px;line-height:24px;font-weight:500}
+.piece-cols{display:grid;grid-template-columns:minmax(0, 5fr) minmax(0, 4fr);gap:clamp(40px, 8.333vw, 120px);align-items:start}
+.gallery{display:flex;flex-direction:column;gap:16px}
+.panel-large{aspect-ratio:15 / 17}
+.thumbs{display:flex;flex-wrap:wrap;gap:16px}
+.thumb{position:relative;overflow:hidden;width:clamp(72px, 22vw, 120px);aspect-ratio:15 / 17;padding:0;border:0;background:var(--tint);cursor:pointer;outline:2px solid transparent;outline-offset:3px}
+.thumb > svg,.thumb > img{position:absolute;left:0;top:0;width:100%;height:100%}
+.thumb > img{object-fit:cover}
+.thumb[aria-pressed="true"]{outline-color:var(--ink)}
+.details{display:flex;flex-direction:column;gap:28px;padding-top:24px}
+.details h1{font-size:clamp(34px, calc(1.714vw + 27.3px), 52px);line-height:1.15;letter-spacing:-.005em}
+.details h1:focus{outline:none}
+.price{margin-top:8px;font-size:22px;line-height:32px;font-weight:500}
+.desc{color:var(--muted);font-size:18px;line-height:30px;max-width:560px}
+.specs{border-bottom:1px solid var(--hair)}
+.specs div{display:flex;justify-content:space-between;gap:24px;padding:16px 0;border-top:1px solid var(--hair);font-size:16px;line-height:24px}
+.specs dt{font-weight:600}
+.specs dd{color:var(--muted);text-align:right}
+.order{display:flex;flex-direction:column;gap:14px}
+.order-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px 16px}
+.qty-line{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-shrink:0}
+.qty{display:flex;align-items:center;height:56px;padding:0 4px;border:1.5px solid var(--ink);border-radius:999px}
+.qty-btn{width:48px;height:48px;padding:0;border:0;border-radius:999px;background:transparent;font-size:22px;line-height:24px;cursor:pointer}
+.qty-btn:hover{background:var(--tint)}
+.qty-btn:disabled{opacity:.35;cursor:default;background:transparent}
+.qty-val{min-width:28px;text-align:center;font-size:17px;line-height:24px;font-weight:600}
+.order-main{flex:1 1 240px;padding:0 28px}
+.order-alt{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:12px}
+.msg{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding-top:10px}
+.msg-cap{min-height:24px;font-size:15px;line-height:24px;font-weight:600}
+.bubble{max-width:420px;padding:14px 18px;border-radius:18px 18px 18px 4px;background:var(--tint);font-size:16px;line-height:26px;white-space:pre-line;overflow-wrap:anywhere}
+.note{color:var(--muted);font-size:16px;line-height:26px}
+.soldout{font-size:18px;line-height:28px;font-weight:600}
+.missing{display:flex;flex-direction:column;align-items:flex-start;gap:20px;padding-block:var(--section)}
+.missing h1{font-size:clamp(32px, calc(1.143vw + 27.5px), 44px);line-height:1.18}
+@media (min-width:560px){
+  .qty-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+}
+@media (max-width:899px){
+  .piece-cols{grid-template-columns:minmax(0, 1fr);gap:28px}
+  .gallery{max-width:600px}
+  .details{padding-top:0;gap:24px}
+  .desc{font-size:17px;line-height:28px}
+}
+@media (max-width:559px){
+  .qty-line{flex:1 1 100%}
+  .qty-label{font-size:16px;line-height:24px;font-weight:600}
+}
+
+/* ---------- Footer ---------- */
+.site-footer{background:var(--ink);color:var(--ground)}
+.site-footer :focus-visible{outline-color:var(--ground)}
+.footer-top{display:flex;justify-content:space-between;gap:64px;padding-top:88px}
+.footer-brand{display:flex;flex-direction:column;gap:12px;max-width:360px}
+.footer-name{font-family:var(--display);font-size:30px;line-height:38px}
+.footer-brand p{color:var(--on-ink-muted);font-size:17px;line-height:28px}
+.footer-cols{display:flex;gap:72px}
+.footer-col{display:flex;flex-direction:column;gap:12px;min-width:180px}
+.footer-col h3{font-size:15px;line-height:24px;font-weight:600}
+.footer-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;color:var(--on-ink-muted);font-size:16px;line-height:26px}
+.footer-col li > *{display:inline-block;padding:9px 0}
+.footer-end{margin-top:64px;padding:24px 0 40px;border-top:1px solid var(--on-ink-hair);color:var(--on-ink-muted);font-size:15px;line-height:24px}
+@media (max-width:1199px){
+  .footer-top{flex-direction:column;gap:36px;padding-top:56px}
+  .footer-cols{flex-wrap:wrap;gap:20px 48px}
+  .footer-end{margin-top:36px;padding:20px 0 32px;font-size:14px;line-height:22px}
+}
+@media (max-width:639px){
+  .footer-name{font-size:28px;line-height:36px}
+  .footer-brand{gap:8px}
+  .footer-brand p{font-size:16px;line-height:26px}
+  .footer-cols{flex-direction:column;gap:20px}
+  .footer-col{gap:8px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+
+<div class="setup" id="setup" hidden><strong>Setup mode.</strong> Open this file in a text editor and fill in the settings near the top: your studio name, WhatsApp number and pieces. This note disappears once your studio name is in.</div>
+
+<header class="site-header" id="top">
+<div class="wrap bar">
+<a class="brand" href="#top" data-fill="name">[Studio Name]</a>
+<nav class="nav" aria-label="Main">
+<div class="nav-links">
+<a href="#shop">Shop</a>
+<a href="#about">About</a>
+</div>
+<a class="pill" href="#contact" data-chat>
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 16h-7.5L7 19.5V16H5a1.5 1.5 0 0 1-1.5-1.5v-8A1.5 1.5 0 0 1 5 5z"></path></svg>
+<span>Message us</span>
+</a>
+</nav>
+<div class="nav-phone">
+<a class="icon-btn" href="#contact" data-chat aria-label="Message us">
+<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 16h-7.5L7 19.5V16H5a1.5 1.5 0 0 1-1.5-1.5v-8A1.5 1.5 0 0 1 5 5z"></path></svg>
+</a>
+<button class="icon-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path id="menu-icon" d="M4 9h16M4 15h16"></path></svg>
+</button>
+</div>
+</div>
+<nav class="menu" id="menu" aria-label="Menu" hidden>
+<a href="#shop">Shop</a>
+<a href="#about">About</a>
+<a href="#how">How to order</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<div id="content" tabindex="-1">
+
+<main id="home">
+
+<section class="hero">
+<div class="wrap hero-copy">
+<h1>Pottery made by hand, one piece at a time.</h1>
+<p class="lede">Mugs, bowls and vases, shaped and glazed by hand in small batches. No two are exactly alike.</p>
+<a class="btn btn-solid" href="#shop">Shop the collection</a>
+</div>
+<div class="shelf">
+<svg viewBox="0 0 1440 300" role="img" aria-label="Handmade pots lined up on a shelf">
+<g fill="#FDFEFE" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M156 50 L184 50 L184 104 C184 128 220 140 220 176 L220 262 C220 284 212 300 204 300 L136 300 C128 300 120 284 120 262 L120 176 C120 140 156 128 156 104 Z"></path>
+<path d="M261 238 C263 270 291 292 306 294 L306 300 L346 300 L346 294 C361 292 389 270 391 238 Z"></path>
+<path d="M516 216 C549 214 551 264 515 268" fill="none" stroke-width="15"></path>
+<path d="M516 216 C549 214 551 264 515 268" fill="none" stroke="#FDFEFE" stroke-width="10"></path>
+<path d="M432 196 L518 196 L515 286 C514.5 295 509 300 501 300 L449 300 C441 300 435.5 295 435 286 Z"></path>
+<path d="M649 120 L689 120 C689 140 692 150 704 162 C734 190 746 214 744 240 C742 268 726 292 709 300 L629 300 C612 292 596 268 594 240 C592 214 604 190 634 162 C646 150 649 140 649 120 Z"></path>
+<path d="M882 126 C928 128 930 214 900 226" fill="none" stroke-width="15"></path>
+<path d="M882 126 C928 128 930 214 900 226" fill="none" stroke="#FDFEFE" stroke-width="10"></path>
+<path d="M811 98 L792 90 L812 118 Z"></path>
+<path d="M809 100 L879 100 C879 124 902 160 902 214 C902 262 894 288 886 300 L802 300 C794 288 786 262 786 214 C786 160 809 124 809 100 Z"></path>
+<path d="M971 214 C974 258 1012 290 1038 293 L1038 300 L1094 300 L1094 293 C1120 290 1158 258 1161 214 Z"></path>
+<path d="M1208 170 L1310 170 C1316 200 1316 270 1302 300 L1216 300 C1202 270 1202 200 1208 170 Z"></path>
+</g>
+<svg x="0" y="244" width="1440" height="66" viewBox="0 244 1440 66">
+<g fill="currentColor" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M516 216 C549 214 551 264 515 268" fill="none" stroke-width="15"></path>
+<path d="M156 50 L184 50 L184 104 C184 128 220 140 220 176 L220 262 C220 284 212 300 204 300 L136 300 C128 300 120 284 120 262 L120 176 C120 140 156 128 156 104 Z"></path>
+<path d="M261 238 C263 270 291 292 306 294 L306 300 L346 300 L346 294 C361 292 389 270 391 238 Z"></path>
+<path d="M432 196 L518 196 L515 286 C514.5 295 509 300 501 300 L449 300 C441 300 435.5 295 435 286 Z"></path>
+<path d="M809 100 L879 100 C879 124 902 160 902 214 C902 262 894 288 886 300 L802 300 C794 288 786 262 786 214 C786 160 809 124 809 100 Z"></path>
+<path d="M971 214 C974 258 1012 290 1038 293 L1038 300 L1094 300 L1094 293 C1120 290 1158 258 1161 214 Z"></path>
+</g>
+</svg>
+<g fill="#FDFEFE" stroke="currentColor" stroke-width="2.5">
+<ellipse cx="170" cy="50" rx="14" ry="3.5"></ellipse>
+<ellipse cx="326" cy="238" rx="65" ry="8"></ellipse>
+<ellipse cx="475" cy="196" rx="43" ry="7"></ellipse>
+<ellipse cx="669" cy="120" rx="20" ry="4.5"></ellipse>
+<ellipse cx="844" cy="100" rx="35" ry="6"></ellipse>
+<ellipse cx="1066" cy="214" rx="95" ry="11"></ellipse>
+</g>
+<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+<path d="M666 120 C664 90 656 60 640 30"></path>
+<path d="M670 120 C672 86 684 60 706 40"></path>
+<path d="M673 120 C680 100 698 90 724 84"></path>
+<path d="M658 75 C652 64 646 58 634 56"></path>
+<path d="M685 67 C692 57 696 50 694 38"></path>
+</g>
+<g fill="currentColor">
+<circle cx="640" cy="30" r="5"></circle>
+<circle cx="706" cy="40" r="5"></circle>
+<circle cx="724" cy="84" r="5"></circle>
+<circle cx="634" cy="56" r="4"></circle>
+<circle cx="694" cy="38" r="4"></circle>
+<path d="M1202 170 C1202 152 1234 146 1259 146 C1284 146 1316 152 1316 170 Z"></path>
+<ellipse cx="1259" cy="139" rx="10" ry="7"></ellipse>
+</g>
+</svg>
+</div>
+</section>
+
+<section class="wrap section section-first" id="shop">
+<div class="section-head"><h2>New from the kiln</h2></div>
+<div class="grid" id="grid"></div>
+</section>
+
+<section class="wrap section" id="about">
+<div class="about">
+<div class="panel" id="about-panel">
+<svg viewBox="0 0 480 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+<g fill="#FDFEFE" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+<path d="M190 506 L290 506 L300 560 L180 560 Z"></path>
+<path d="M50 452 L50 474 C50 494 135 508 240 508 C345 508 430 494 430 474 L430 452 Z"></path>
+<ellipse cx="240" cy="452" rx="190" ry="30"></ellipse>
+<path d="M176 250 L304 250 C306 320 314 390 326 448 C300 464 180 464 154 448 C166 390 174 320 176 250 Z"></path>
+<ellipse cx="240" cy="250" rx="64" ry="11"></ellipse>
+</g>
+<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+<path d="M173 310 C200 321 280 321 307 310"></path>
+<path d="M168 360 C198 372 282 372 312 360"></path>
+<path d="M161 408 C194 421 286 421 319 408"></path>
+</g>
+<rect x="-200" y="560" width="880" height="4" fill="currentColor"></rect>
+</svg>
+<div class="panel-note" id="about-note" hidden>Replace with a photo of you at work</div>
+</div>
+<div class="about-text">
+<h2>Shaped by hand,<br> fired in small batches.</h2>
+<p>Each piece is shaped, trimmed and glazed by hand, so small variations in form and colour are part of its character.</p>
+<p data-fill="about">[Add two or three sentences about you and your studio: who makes the pottery, where you work, and what makes your pieces yours.]</p>
+<div class="potter" data-fill="potter">[Your name], potter</div>
+</div>
+</div>
+</section>
+
+<section class="wrap section" id="how">
+<h2>Ordering is simple.</h2>
+<ol class="steps">
+<li class="step">
+<div class="step-n" aria-hidden="true">1</div>
+<h3>Choose your pieces</h3>
+<p>Browse the collection and pick the pieces you love.</p>
+</li>
+<li class="step">
+<div class="step-n" aria-hidden="true">2</div>
+<h3>Message us to order</h3>
+<p>Tap the order button on any piece to message us<span id="how-channels"> on WhatsApp, Instagram or Facebook</span>.</p>
+</li>
+<li class="step">
+<div class="step-n" aria-hidden="true">3</div>
+<h3>We confirm, you pay</h3>
+<p>We reply with the total and how to pay. <span data-fill="payment">[Your payment options]</span></p>
+</li>
+<li class="step">
+<div class="step-n" aria-hidden="true">4</div>
+<h3>Delivered with care</h3>
+<p>Every order is wrapped to survive the journey. <span data-fill="delivery">[Your delivery areas and times]</span></p>
+</li>
+</ol>
+<div class="cta-row">
+<a class="btn btn-solid" href="#shop">Shop the collection</a>
+<a class="btn btn-line" href="#contact" data-chat>
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 16h-7.5L7 19.5V16H5a1.5 1.5 0 0 1-1.5-1.5v-8A1.5 1.5 0 0 1 5 5z"></path></svg>
+<span id="chat-cta">Message us</span>
+</a>
+</div>
+</section>
+
+</main>
+
+<main id="piece" hidden></main>
+
+</div>
+
+<footer class="site-footer" id="contact">
+<div class="wrap">
+<div class="footer-top">
+<div class="footer-brand">
+<div class="footer-name" data-fill="name">[Studio Name]</div>
+<p data-fill="tagline">Handmade pottery from [your city].</p>
+</div>
+<div class="footer-cols" id="footer-cols"></div>
+</div>
+<div class="footer-end">© <span id="year">2026</span> <span data-fill="name">[Studio Name]</span></div>
+</div>
+</footer>
+
+<noscript><p style="padding:24px">This site needs JavaScript to show the collection. Please turn it on, or message us directly.</p></noscript>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- helpers ---------- */
+  const S = window.STUDIO || {};
+  const $ = (sel, el) => (el || document).querySelector(sel);
+  const $$ = (sel, el) => Array.from((el || document).querySelectorAll(sel));
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const isSet = (v) => typeof v === 'string' && v.trim() !== '' && !/[\[\]]/.test(v);
+  const demo = !isSet(S.name);                       // studio name still a placeholder: show every placeholder, like the design
+  const shown = (v) => (demo ? typeof v === 'string' && v.trim() !== '' : isSet(v));
+  const slug = (s) => String(s).toLowerCase().normalize('NFKC').replace(/[^\p{L}\p{N}\s-]/gu, '').trim().replace(/\s+/g, '-');
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- colour: everything derives from the one ink ---------- */
+  const GROUND = '#F4F6F5';
+  const hexOk = (h) => /^#[0-9a-f]{6}$/i.test(h || '');
+  const INK = hexOk(S.ink) ? S.ink : '#1F3A6E';
+  function mix(a, b, t) {                            // t of a over b
+    const pa = [1, 3, 5].map((i) => parseInt(a.slice(i, i + 2), 16));
+    const pb = [1, 3, 5].map((i) => parseInt(b.slice(i, i + 2), 16));
+    return '#' + pa.map((v, i) => Math.round(v * t + pb[i] * (1 - t)).toString(16).padStart(2, '0')).join('');
+  }
+  const root = document.documentElement.style;
+  root.setProperty('--ink', INK);
+  root.setProperty('--tint', mix(INK, GROUND, 0.07));
+  root.setProperty('--hair', mix(INK, GROUND, 0.22));
+  root.setProperty('--muted', mix(INK, GROUND, 0.78));
+  root.setProperty('--on-ink-muted', mix(GROUND, INK, 0.8));
+  root.setProperty('--on-ink-hair', mix(GROUND, INK, 0.28));
+
+  /* ---------- pieces ---------- */
+  const seen = {};
+  const PIECES = (Array.isArray(window.PIECES) ? window.PIECES : []).filter((p) => p && p.name).map((p, i) => {
+    let id = slug(p.id || p.name) || 'piece-' + (i + 1);
+    if (seen[id]) id = id + '-' + (i + 1);
+    seen[id] = true;
+    return Object.assign({}, p, {
+      id: id,
+      photos: Array.isArray(p.photos) ? p.photos.filter((x) => typeof x === 'string' && x.trim() !== '') : [],
+      available: p.available !== false
+    });
+  });
+
+  /* ---------- message channels ---------- */
+  const digits = String(S.whatsapp || '').replace(/\(0\)/g, '').replace(/\D/g, '').replace(/^00/, '');
+  const handle = String(S.instagram || '').trim().replace(/^@/, '').replace(/^https?:\/\/(www\.)?instagram\.com\//i, '').replace(/\/+$/, '');
+  const page = String(S.facebook || '').trim().replace(/^https?:\/\/(www\.|m\.)?facebook\.com\//i, '').replace(/\/+$/, '');
+  const CHANNELS = {
+    whatsapp: {
+      label: 'WhatsApp', app: 'WhatsApp', prefill: true, on: digits.length >= 7, display: '+' + digits,
+      url: (m) => 'https://wa.me/' + (demo ? '' : digits) + (m ? '?text=' + encodeURIComponent(m) : '')
+    },
+    instagram: {
+      label: 'Instagram', app: 'Instagram', prefill: false, on: isSet(S.instagram) && handle !== '', display: '@' + handle,
+      url: () => (demo ? 'https://www.instagram.com/direct/inbox/' : 'https://ig.me/m/' + encodeURIComponent(handle))
+    },
+    facebook: {
+      label: 'Facebook', app: 'Messenger', prefill: true, on: isSet(S.facebook) && page !== '', display: page,
+      url: (m) => (demo ? 'https://www.messenger.com/' : 'https://m.me/' + encodeURIComponent(page) + (m ? '?text=' + encodeURIComponent(m) : ''))
+    }
+  };
+  const lead = CHANNELS[S.leadChannel] ? S.leadChannel : 'whatsapp';
+  const order = [lead].concat(['whatsapp', 'instagram', 'facebook'].filter((k) => k !== lead));
+  const active = demo ? order : order.filter((k) => CHANNELS[k].on);
+  const emailOn = isSet(S.email);
+  const studioName = isSet(S.name) ? S.name.trim() : '';
+  const hello = studioName ? 'Hi ' + studioName + ', ' : (demo ? 'Hi [Studio Name], ' : 'Hi, ');
+
+  function copyText(text) {
+    const legacy = () => {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      return ok;
+    };
+    // the old synchronous copy runs inside the tap itself, before the chat app takes focus
+    if (legacy()) return Promise.resolve(true);
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text).then(() => true, () => false);
+    return Promise.resolve(false);
+  }
+
+  /* ---------- drawings that stand in for photos ---------- */
+  const SLIP = '#FDFEFE';
+  const ground = (sw) => '<rect x="-200" y="340" width="780" height="' + (sw + 1) + '" fill="currentColor"/>';
+  const ART = {
+    mug: [
+      (sw) => {
+        const handle = 'M257 222 C312 218 316 300 255 306';
+        const body = 'M120 190 L260 190 L255 318 C254 332 246 340 234 340 L146 340 C134 340 126 332 125 318 Z';
+        return '<g fill="' + SLIP + '" stroke="currentColor" stroke-width="' + sw + '" stroke-linejoin="round" stroke-linecap="round">' +
+          '<path d="' + handle + '" fill="none" stroke-width="' + (16 + 2 * sw) + '"/>' +
+          '<path d="' + handle + '" fill="none" stroke="' + SLIP + '" stroke-width="16"/>' +
+          '<path d="' + body + '"/></g>' +
+          '<svg x="0" y="270" width="380" height="76" viewBox="0 270 380 76"><g fill="currentColor" stroke="currentColor" stroke-width="' + sw + '" stroke-linejoin="round" stroke-linecap="round">' +
+          '<path d="' + handle + '" fill="none" stroke-width="' + (16 + 2 * sw) + '"/><path d="' + body + '"/></g></svg>' +
+          '<ellipse cx="190" cy="190" rx="70" ry="11" fill="' + SLIP + '" stroke="currentColor" stroke-width="' + sw + '"/>' + ground(sw);
+      },
+      (sw) => '<g stroke="currentColor" stroke-width="' + sw + '" stroke-linecap="round">' +
+        '<path d="M270 230 L332 230" fill="none" stroke-width="' + (22 + 2 * sw) + '"/>' +
+        '<path d="M270 230 L332 230" fill="none" stroke="' + SLIP + '" stroke-width="22"/>' +
+        '<circle cx="180" cy="230" r="96" fill="' + SLIP + '"/>' +
+        '<circle cx="180" cy="230" r="83" fill="' + SLIP + '" stroke-width="' + (sw * 0.8) + '"/></g>',
+      (sw) => {
+        const k = sw / 0.72;
+        const handle = 'M257 222 C312 218 316 300 255 306';
+        const body = 'M120 190 L260 190 L255 318 C254 332 246 340 234 340 L146 340 C134 340 126 332 125 318 Z';
+        const one = (glazed) => '<g fill="' + SLIP + '" stroke="currentColor" stroke-width="' + k + '" stroke-linejoin="round" stroke-linecap="round">' +
+          '<path d="' + handle + '" fill="none" stroke-width="' + (16 + 2 * k) + '"/>' +
+          '<path d="' + handle + '" fill="none" stroke="' + SLIP + '" stroke-width="16"/>' +
+          '<path d="' + body + '"/></g>' +
+          (glazed ? '<svg x="0" y="270" width="380" height="76" viewBox="0 270 380 76"><g fill="currentColor" stroke="currentColor" stroke-width="' + k + '" stroke-linejoin="round" stroke-linecap="round">' +
+            '<path d="' + handle + '" fill="none" stroke-width="' + (16 + 2 * k) + '"/><path d="' + body + '"/></g></svg>' : '') +
+          '<ellipse cx="190" cy="190" rx="70" ry="11" fill="' + SLIP + '" stroke="currentColor" stroke-width="' + k + '"/>';
+        return '<g transform="translate(-26.8 95.2) scale(0.72)">' + one(true) + '</g>' +
+          '<g transform="translate(128.2 95.2) scale(0.72)">' + one(false) + '</g>' + ground(sw);
+      }
+    ],
+    bowl: [(sw) => {
+      const d = 'M75 238 C79 292 126 328 150 331 L150 340 L230 340 L230 331 C254 328 301 292 305 238 Z';
+      return '<path d="' + d + '" fill="' + SLIP + '" stroke="currentColor" stroke-width="' + sw + '" stroke-linejoin="round"/>' +
+        '<svg x="0" y="284" width="380" height="62" viewBox="0 284 380 62"><path d="' + d + '" fill="currentColor" stroke="currentColor" stroke-width="' + sw + '" stroke-linejoin="round"/></svg>' +
+        '<ellipse cx="190" cy="238" rx="115" ry="14" fill="' + SLIP + '" stroke="currentColor" stroke-width="' + sw + '"/>' + ground(sw);
+    }],
+    vase: [(sw) => '<path d="M162 90 L218 90 C218 118 222 132 238 148 C280 188 298 222 295 258 C292 296 268 328 245 340 L135 340 C112 328 88 296 85 258 C82 222 100 188 142 148 C158 132 162 118 162 90 Z" fill="currentColor" stroke="currentColor" stroke-width="' + sw + '" stroke-linejoin="round"/>' +
+      '<ellipse cx="190" cy="90" rx="28" ry="6" fill="' + SLIP + '" stroke="currentColor" stroke-width="' + sw + '"/>' + ground(sw)],
+    plates: [(sw) => {
+      const plate = (y, fill) => '<path d="M60 ' + y + ' L320 ' + y + ' C300 ' + (y + 13) + ' 252 ' + (y + 18) + ' 232 ' + (y + 18) + ' L148 ' + (y + 18) + ' C128 ' + (y + 18) + ' 80 ' + (y + 13) + ' 60 ' + y + ' Z" fill="' + fill + '"/>';
+      return '<g stroke="currentColor" stroke-width="' + sw + '" stroke-linejoin="round">' +
+        plate(322, SLIP) + plate(304, SLIP) + plate(286, 'currentColor') + plate(268, SLIP) +
+        '<ellipse cx="190" cy="268" rx="130" ry="9" fill="' + SLIP + '"/></g>' + ground(sw);
+    }],
+    jug: [(sw) => {
+      const handle = 'M242 134 C304 136 306 252 268 266';
+      const body = 'M142 100 L238 100 C238 132 270 180 270 250 C270 300 258 328 248 340 L132 340 C122 328 110 300 110 250 C110 180 142 132 142 100 Z';
+      return '<g fill="' + SLIP + '" stroke="currentColor" stroke-width="' + sw + '" stroke-linejoin="round" stroke-linecap="round">' +
+        '<path d="' + handle + '" fill="none" stroke-width="' + (16 + 2 * sw) + '"/>' +
+        '<path d="' + handle + '" fill="none" stroke="' + SLIP + '" stroke-width="16"/>' +
+        '<path d="M145 98 L120 88 L146 124 Z"/><path d="' + body + '"/></g>' +
+        '<svg x="0" y="276" width="380" height="70" viewBox="0 276 380 70"><path d="' + body + '" fill="currentColor" stroke="currentColor" stroke-width="' + sw + '" stroke-linejoin="round"/></svg>' +
+        '<ellipse cx="190" cy="100" rx="48" ry="8" fill="' + SLIP + '" stroke="currentColor" stroke-width="' + sw + '"/>' + ground(sw);
+    }],
+    tumbler: [(sw) => {
+      const d = 'M125 180 L255 180 L244 322 C243 333 236 340 226 340 L154 340 C144 340 137 333 136 322 Z';
+      return '<path d="' + d + '" fill="' + SLIP + '" stroke="currentColor" stroke-width="' + sw + '" stroke-linejoin="round"/>' +
+        '<svg x="0" y="216" width="380" height="14" viewBox="0 216 380 14"><path d="' + d + '" fill="currentColor"/></svg>' +
+        '<svg x="0" y="238" width="380" height="5" viewBox="0 238 380 5"><path d="' + d + '" fill="currentColor"/></svg>' +
+        '<ellipse cx="190" cy="180" rx="65" ry="10" fill="' + SLIP + '" stroke="currentColor" stroke-width="' + sw + '"/>' + ground(sw);
+    }]
+  };
+  const ART_LABELS = { mug: ['side view', 'seen from above', 'two together'] };
+  function drawing(shape, view, sw, label) {
+    const set = ART[shape] || ART.bowl;
+    const fn = set[view] || set[0];
+    return '<svg viewBox="0 0 380 460" preserveAspectRatio="xMidYMid slice" ' +
+      (label ? 'role="img" aria-label="' + esc(label) + '"' : 'aria-hidden="true"') + '>' + fn(sw) + '</svg>';
+  }
+  function guardImages(scope) {                      // a missing photo falls back to the drawing
+    $$('img[data-shape]', scope).forEach((img) => {
+      img.addEventListener('error', () => {
+        const t = document.createElement('template');
+        t.innerHTML = drawing(img.dataset.shape, 0, Number(img.dataset.sw) || 3, img.alt || '');
+        img.replaceWith(t.content.firstChild);
+      }, { once: true });
+    });
+  }
+
+  const ICON_CHAT = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 16h-7.5L7 19.5V16H5a1.5 1.5 0 0 1-1.5-1.5v-8A1.5 1.5 0 0 1 5 5z"/></svg>';
+  const ICON_BACK = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+
+  /* ---------- shared page furniture ---------- */
+  function fillStatic() {
+    $('#setup').hidden = !demo;
+    $$('[data-fill]').forEach((el) => {
+      const v = S[el.dataset.fill];
+      if (shown(v)) el.textContent = v.trim();
+      else el.hidden = true;
+    });
+    $('#year').textContent = String(new Date().getFullYear());
+
+    // "Message us" buttons go straight to the lead channel once it is set up
+    const first = active[0];
+    const chatUrl = first && !demo ? CHANNELS[first].url(hello + 'I have a question about your pottery.') : '';
+    $$('[data-chat]').forEach((a) => {
+      if (chatUrl) { a.href = chatUrl; a.target = '_blank'; a.rel = 'noopener'; }
+    });
+    $('#chat-cta').textContent = first ? 'Message us on ' + CHANNELS[first].label : 'Message us';
+
+    const names = active.map((k) => CHANNELS[k].label);
+    $('#how-channels').textContent = names.length ? ' on ' + (names.length > 1 ? names.slice(0, -1).join(', ') + ' or ' + names[names.length - 1] : names[0]) : '';
+
+    // about photo
+    if (isSet(S.aboutPhoto)) {
+      const img = new Image();
+      img.alt = isSet(S.potter) ? S.potter.trim() : 'The potter at work';
+      img.loading = 'lazy';
+      img.onload = () => { const p = $('#about-panel'); p.innerHTML = ''; p.appendChild(img); };
+      img.src = S.aboutPhoto.trim();
+    } else {
+      $('#about-note').hidden = !demo;
+    }
+
+    // footer columns
+    const cols = [];
+    const rows = [];
+    if (demo) {
+      rows.push('<li><a href="#contact">WhatsApp [number]</a></li>', '<li><a href="#contact">Instagram [@handle]</a></li>', '<li><a href="#contact">Facebook [page name]</a></li>');
+    } else {
+      active.forEach((k) => rows.push('<li><a href="' + esc(CHANNELS[k].url('')) + '" target="_blank" rel="noopener">' + CHANNELS[k].label + ' ' + esc(CHANNELS[k].display) + '</a></li>'));
+    }
+    if (rows.length) cols.push('<div class="footer-col"><h3>Order by message</h3><ul>' + rows.join('') + '</ul></div>');
+    const visit = [S.address, S.hours].filter(shown).map((v) => '<li><span>' + esc(v.trim()) + '</span></li>');
+    if (visit.length) cols.push('<div class="footer-col"><h3>Visit</h3><ul>' + visit.join('') + '</ul></div>');
+    const contact = [];
+    if (shown(S.email)) contact.push('<li><a href="' + (emailOn ? 'mailto:' + esc(S.email.trim()) : '#contact') + '">' + esc(S.email.trim()) + '</a></li>');
+    if (shown(S.phone)) contact.push('<li><a href="' + (isSet(S.phone) ? 'tel:' + esc(S.phone.replace(/[^\d+]/g, '')) : '#contact') + '">' + esc(S.phone.trim()) + '</a></li>');
+    if (contact.length) cols.push('<div class="footer-col"><h3>Contact</h3><ul>' + contact.join('') + '</ul></div>');
+    $('#footer-cols').innerHTML = cols.join('');
+  }
+
+  /* ---------- home: the grid ---------- */
+  function renderGrid() {
+    if (!PIECES.length) {
+      $('#grid').outerHTML = '<p class="note" id="grid">New pieces are on their way. Message us to ask what is in the studio right now.</p>';
+      return;
+    }
+    $('#grid').innerHTML = PIECES.map((p) => {
+      const photo = p.photos[0];
+      const media = photo
+        ? '<img src="' + esc(photo) + '" alt="" loading="lazy" decoding="async" data-shape="' + esc(p.shape || '') + '" data-sw="3">'
+        : drawing(p.shape, 0, 3, '');
+      const price = !p.available ? 'Sold out' : (shown(p.price) ? p.price.trim() : '');
+      return '<a class="card" href="#/piece/' + encodeURIComponent(p.id) + '">' +
+        '<div class="panel">' + media + '</div>' +
+        '<div><div class="card-name">' + esc(p.name) + '</div>' + (price ? '<div class="card-price">' + esc(price) + '</div>' : '') + '</div></a>';
+    }).join('');
+    guardImages($('#grid'));
+  }
+
+  /* ---------- piece page ---------- */
+  function renderPiece(id) {
+    const el = $('#piece');
+    const p = PIECES.find((x) => x.id === id);
+    if (!p) {
+      el.innerHTML = '<div class="wrap missing"><h1 tabindex="-1">We could not find that piece.</h1><p class="note">It may have sold out or moved. The rest of the collection is one tap away.</p><a class="btn btn-solid" href="#shop">See all pieces</a></div>';
+      document.title = 'Piece not found' + (studioName ? ' | ' + studioName : '');
+      return;
+    }
+
+    const views = p.photos.length
+      ? p.photos.map((src, i) => ({
+          main: '<img src="' + esc(src) + '" alt="' + esc(p.name + (p.photos.length > 1 ? ', photo ' + (i + 1) : '')) + '" decoding="async" data-shape="' + esc(p.shape || '') + '" data-sw="2.5">',
+          thumb: '<img src="' + esc(src) + '" alt="" loading="lazy" decoding="async" data-shape="' + esc(p.shape || '') + '" data-sw="6">',
+          label: 'Show photo ' + (i + 1)
+        }))
+      : (ART[p.shape] || ART.bowl).map((fn, i) => {
+          const what = (ART_LABELS[p.shape] || [])[i] || 'drawing';
+          return { main: drawing(p.shape, i, 2.5, p.name + ', ' + what), thumb: drawing(p.shape, i, 6, ''), label: 'Show ' + what };
+        });
+
+    const specs = [['Size', p.size], ['Holds', p.holds], ['Glaze', p.glaze], ['Care', p.care]].filter((r) => shown(r[1]));
+    const price = shown(p.price) ? p.price.trim() : '';
+    const note = (shown(S.deliveryNote) ? S.deliveryNote.trim() + ' ' : '') + 'Every order is wrapped to survive the journey.';
+
+    let orderHtml;
+    if (!p.available) {
+      const ask = active[0] && !demo ? CHANNELS[active[0]].url(hello + 'will the ' + p.name + ' be back? I would like one from the next batch.') : '#contact';
+      orderHtml = '<div class="order"><p class="soldout">Sold out for now.</p>' +
+        '<a class="btn btn-line" href="' + esc(ask) + '"' + (ask !== '#contact' ? ' target="_blank" rel="noopener"' : '') + '>' + ICON_CHAT + '<span>Ask about the next batch</span></a></div>';
+    } else if (active.length) {
+      const main = active[0];
+      const alts = active.slice(1);
+      orderHtml = '<div class="order">' +
+        '<div class="order-row">' +
+          '<div class="qty-line"><span class="qty-label" id="qty-label">Quantity</span>' +
+            '<div class="qty" role="group" aria-labelledby="qty-label">' +
+              '<button class="qty-btn" type="button" data-step="-1" aria-label="Decrease quantity">−</button>' +
+              '<output class="qty-val" aria-live="polite">1</output>' +
+              '<button class="qty-btn" type="button" data-step="1" aria-label="Increase quantity">+</button>' +
+            '</div></div>' +
+          '<a class="btn btn-solid order-main" data-channel="' + main + '" target="_blank" rel="noopener" href="#">' + ICON_CHAT + '<span>Order on ' + CHANNELS[main].label + '</span></a>' +
+        '</div>' +
+        (alts.length ? '<div class="order-alt">' + alts.map((k) => '<a class="btn btn-line btn-52" data-channel="' + k + '" target="_blank" rel="noopener" href="#">Order on ' + CHANNELS[k].label + '</a>').join('') + '</div>' : '') +
+        '<div class="msg"><div class="msg-cap" aria-live="polite">Your message, ready to send</div><div class="bubble"></div></div>' +
+        '<p class="note">' + esc(note) + '</p></div>';
+    } else if (emailOn) {
+      orderHtml = '<div class="order"><a class="btn btn-solid" data-email href="#">Order by email</a><p class="note">' + esc(note) + '</p></div>';
+    } else {
+      orderHtml = '';
+    }
+
+    el.innerHTML = '<div class="wrap piece">' +
+      '<a class="back" href="#shop">' + ICON_BACK + '<span>Back to all pieces</span></a>' +
+      '<div class="piece-cols">' +
+        '<div class="gallery"><div class="panel panel-large" id="stage">' + views[0].main + '</div>' +
+          (views.length > 1 ? '<div class="thumbs">' + views.map((v, i) => '<button class="thumb" type="button" data-view="' + i + '" aria-pressed="' + (i === 0) + '" aria-label="' + esc(v.label) + '">' + v.thumb + '</button>').join('') + '</div>' : '') +
+        '</div>' +
+        '<div class="details">' +
+          '<div><h1 tabindex="-1">' + esc(p.name) + '</h1>' + (price ? '<div class="price">' + esc(price) + '</div>' : '') + '</div>' +
+          '<p class="desc">' + esc(p.description ? p.description.trim() + ' ' : '') + 'Each one is shaped and glazed by hand, so yours will differ slightly from the ' + (p.photos.length ? 'photo' : 'picture') + '.</p>' +
+          (specs.length ? '<dl class="specs">' + specs.map((r) => '<div><dt>' + r[0] + '</dt><dd>' + esc(r[1].trim()) + '</dd></div>').join('') + '</dl>' : '') +
+          orderHtml +
+        '</div>' +
+      '</div></div>';
+    document.title = p.name + (studioName ? ' | ' + studioName : '');
+    guardImages(el);
+
+    // gallery
+    $$('.thumb', el).forEach((b) => b.addEventListener('click', () => {
+      const i = Number(b.dataset.view);
+      $('#stage', el).innerHTML = views[i].main;
+      guardImages($('#stage', el));
+      $$('.thumb', el).forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    }));
+
+    // ordering
+    let qty = 1;
+    const MAX = 12;
+    const cap = $('.msg-cap', el);
+    const message = () => hello + 'I would like to order ' + qty + ' × ' + p.name + (isSet(p.price) ? ' (' + p.price.trim() + ' each)' : '') + '.' +
+      (/^https?:$/.test(location.protocol) ? '\n' + location.href : '');
+    const sync = () => {
+      const m = message();
+      const out = $('.qty-val', el);
+      if (out) out.textContent = String(qty);
+      const bubble = $('.bubble', el);
+      if (bubble) bubble.textContent = m;
+      $$('[data-channel]', el).forEach((a) => { a.href = CHANNELS[a.dataset.channel].url(m); });
+      const mail = $('[data-email]', el);
+      if (mail) mail.href = 'mailto:' + S.email.trim() + '?subject=' + encodeURIComponent('Order: ' + p.name) + '&body=' + encodeURIComponent(m);
+      $$('.qty-btn', el).forEach((b) => { b.disabled = (Number(b.dataset.step) < 0 && qty <= 1) || (Number(b.dataset.step) > 0 && qty >= MAX); });
+    };
+    $$('.qty-btn', el).forEach((b) => b.addEventListener('click', () => {
+      qty = Math.min(MAX, Math.max(1, qty + Number(b.dataset.step)));
+      if (cap) cap.textContent = 'Your message, ready to send';
+      sync();
+    }));
+    $$('[data-channel]', el).forEach((a) => a.addEventListener('click', () => {
+      const c = CHANNELS[a.dataset.channel];
+      const m = message();
+      if (c.prefill) {
+        copyText(m);                                   // quiet safety net in case the app drops the text
+        cap.textContent = 'Opening ' + c.app + ' with your message ready to send.';
+      } else {
+        copyText(m).then((ok) => {
+          cap.textContent = ok ? 'Message copied. Paste it into the ' + c.app + ' chat that opens.' : 'Copy the message below and paste it into the ' + c.app + ' chat that opens.';
+        });
+      }
+    }));
+    sync();
+  }
+
+  /* ---------- moving between the home page and a piece ---------- */
+  const home = $('#home');
+  const piece = $('#piece');
+  let homeTitle = document.title;
+  let view = 'home';
+  let homeScroll = 0;
+  const HOME_ANCHORS = ['top', 'shop', 'about', 'how'];
+
+  function parse(hash) {
+    const h = hash || '';
+    const m = h.match(/^#\/piece\/(.+)$/);
+    if (m) {
+      let id = m[1];
+      try { id = decodeURIComponent(id); } catch (e) { /* keep raw */ }
+      return { view: 'piece', id: id };
+    }
+    return { view: 'home', anchor: h.length > 1 && h.charAt(1) !== '/' ? h.slice(1) : '' };
+  }
+
+  function scrollToEl(el, smooth) {
+    if (!el) return;
+    el.scrollIntoView({ behavior: smooth && !reduceMotion ? 'smooth' : 'auto', block: 'start' });
+  }
+
+  function render(route, fromHistory) {
+    closeMenu();
+    if (route.view === 'piece') {
+      if (view === 'home') homeScroll = window.scrollY;
+      renderPiece(route.id);
+      home.hidden = true; piece.hidden = false; view = 'piece';
+      window.scrollTo(0, 0);
+      const h1 = $('h1', piece);
+      if (h1) h1.focus({ preventScroll: true });
+      return;
+    }
+    const anchor = route.anchor;
+    if (anchor && HOME_ANCHORS.indexOf(anchor) === -1) {          // e.g. #contact or #content: stay where we are
+      const target = document.getElementById(anchor);
+      scrollToEl(target, true);
+      if (target && target.hasAttribute('tabindex')) target.focus({ preventScroll: true });
+      return;
+    }
+    const wasPiece = view === 'piece';
+    if (wasPiece) { piece.hidden = true; piece.innerHTML = ''; home.hidden = false; view = 'home'; document.title = homeTitle; }
+    if (anchor && anchor !== 'top') scrollToEl(document.getElementById(anchor), !wasPiece);
+    else if (fromHistory && wasPiece) window.scrollTo(0, homeScroll);
+    else window.scrollTo({ top: 0, behavior: !wasPiece && !reduceMotion ? 'smooth' : 'auto' });
+  }
+
+  function go(hash) {
+    try { history.pushState(null, '', hash); } catch (e) { /* sandboxed previews: carry on without the address bar */ }
+    render(parse(hash), false);
+  }
+
+  document.addEventListener('click', (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a || a.target === '_blank') return;
+    e.preventDefault();
+    go(a.getAttribute('href'));
+  });
+  window.addEventListener('popstate', () => render(parse(location.hash), true));
+
+  /* ---------- phone menu ---------- */
+  const menuBtn = $('#menu-btn');
+  const menu = $('#menu');
+  function closeMenu() {
+    if (!menu || menu.hidden) return;
+    menu.hidden = true;
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', 'Open menu');
+    $('#menu-icon').setAttribute('d', 'M4 9h16M4 15h16');
+  }
+  menuBtn.addEventListener('click', () => {
+    if (!menu.hidden) { closeMenu(); return; }
+    menu.hidden = false;
+    menuBtn.setAttribute('aria-expanded', 'true');
+    menuBtn.setAttribute('aria-label', 'Close menu');
+    $('#menu-icon').setAttribute('d', 'M6 6l12 12M18 6L6 18');
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { closeMenu(); menuBtn.focus(); } });
+
+  /* ---------- start ---------- */
+  try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) { /* ignore */ }
+  if (studioName && /^Handmade pottery$/i.test(document.title)) document.title = studioName + ' | Handmade pottery';
+  homeTitle = document.title;
+  fillStatic();
+  renderGrid();
+  const start = parse(location.hash);
+  if (start.view === 'piece' || start.anchor) render(start, false);
+})();
+</script>
+</body>
+</html>
